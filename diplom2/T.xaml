@@ -1,0 +1,42 @@
+﻿<Page x:Class="diplom2.T"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:diplom2"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="1000"
+      Title="T" IsVisibleChanged="Page_IsVisibleChanged">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="362*"/>
+            <RowDefinition Height="60*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Техника" FontSize="24" HorizontalAlignment="Left" Margin="50 5 0 5" ></TextBlock>
+        <DataGrid Grid.Row="1"  x:Name="DGridKV" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер заказа" Binding="{Binding Nomer}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Описание неиправностей" Binding="{Binding Opisanie}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status1.Name}" Width="70"></DataGridTextColumn>
+                <DataGridTextColumn Header="Тип устройства" Binding="{Binding Type1.Name}" Width="130"></DataGridTextColumn>
+                <DataGridTextColumn Header="Примерная стоимость" Binding="{Binding Price}" Width="*"></DataGridTextColumn>
+                <DataGridTemplateColumn Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Редактировать" Name="Edit" Click="Edit_Click"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Добавить" Grid.Row="2" Margin="15,10" Width="100" Height="30" HorizontalAlignment="Left" Name="AddT" VerticalAlignment="Top" Click="AddT_Click" />
+        <Button Content="Удалить" Grid.Row="2" Margin="15 10" Width="100" Height="30" HorizontalAlignment="Right" Name="DeleteT" Click="DeleteT_Click"></Button>
+        <TextBox x:Name="TBST" TextChanged="TBST_TextChanged" HorizontalAlignment="Left" Margin="535,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="120"/>
+        <Label Content="Введите номер заказа:" HorizontalAlignment="Left" Margin="300,0,0,0" VerticalAlignment="Center"/>
+        <Label Content="Выберите статус:" HorizontalAlignment="Left" Margin="680,0,0,0" VerticalAlignment="Center"/>
+        <ComboBox Name="CBT" SelectionChanged="CBT_SelectionChanged" DisplayMemberPath="Name"  HorizontalAlignment="Left" Margin="850,0,0,0" VerticalAlignment="Center" Width="120"/>
+        <Button x:Name="OtchetT" Grid.Row="2" Grid.Column="0" Width="150" Height="30" Content="Техника на складе" Click="OtchetT_Click"/>
+    </Grid>
+</Page>

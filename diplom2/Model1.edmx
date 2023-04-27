@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище DP2Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kategoria">
+          <Key>
+            <PropertyRef Name="ID_K" />
+          </Key>
+          <Property Name="ID_K" Type="smallint" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Komp">
+          <Key>
+            <PropertyRef Name="ID_Komplect" />
+          </Key>
+          <Property Name="ID_Komplect" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Art" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Kategoria" Type="smallint" />
+          <Property Name="Price" Type="int" />
+          <Property Name="Cost" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID_Status" />
+          </Key>
+          <Property Name="ID_Status" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Status2">
+          <Key>
+            <PropertyRef Name="ID_Sklad" />
+          </Key>
+          <Property Name="ID_Sklad" Type="smallint" Nullable="false" />
+          <Property Name="ID_Tex" Type="smallint" />
+          <Property Name="ID_Komplect" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tex">
+          <Key>
+            <PropertyRef Name="ID_Tex" />
+          </Key>
+          <Property Name="ID_Tex" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nomer" Type="int" Nullable="false" />
+          <Property Name="Opisanie" Type="varchar" MaxLength="100" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Type" Type="int" />
+          <Property Name="Price" Type="int" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="ID_Type" />
+          </Key>
+          <Property Name="ID_Type" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Komp_Kategoria">
+          <End Role="Kategoria" Type="Self.Kategoria" Multiplicity="0..1" />
+          <End Role="Komp" Type="Self.Komp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoria">
+              <PropertyRef Name="ID_K" />
+            </Principal>
+            <Dependent Role="Komp">
+              <PropertyRef Name="Kategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Status2_Komp">
+          <End Role="Komp" Type="Self.Komp" Multiplicity="0..1" />
+          <End Role="Status2" Type="Self.Status2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Komp">
+              <PropertyRef Name="ID_Komplect" />
+            </Principal>
+            <Dependent Role="Status2">
+              <PropertyRef Name="ID_Komplect" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Status2_Tex">
+          <End Role="Tex" Type="Self.Tex" Multiplicity="0..1" />
+          <End Role="Status2" Type="Self.Status2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tex">
+              <PropertyRef Name="ID_Tex" />
+            </Principal>
+            <Dependent Role="Status2">
+              <PropertyRef Name="ID_Tex" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tex_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Tex" Type="Self.Tex" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID_Status" />
+            </Principal>
+            <Dependent Role="Tex">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tex_Type">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Tex" Type="Self.Tex" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID_Type" />
+            </Principal>
+            <Dependent Role="Tex">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище DP2ModelContainer">
+          <EntitySet Name="Kategoria" EntityType="Self.Kategoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Komp" EntityType="Self.Komp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status2" EntityType="Self.Status2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tex" EntityType="Self.Tex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Komp_Kategoria" Association="Self.FK_Komp_Kategoria">
+            <End Role="Kategoria" EntitySet="Kategoria" />
+            <End Role="Komp" EntitySet="Komp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Status2_Komp" Association="Self.FK_Status2_Komp">
+            <End Role="Komp" EntitySet="Komp" />
+            <End Role="Status2" EntitySet="Status2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Status2_Tex" Association="Self.FK_Status2_Tex">
+            <End Role="Tex" EntitySet="Tex" />
+            <End Role="Status2" EntitySet="Status2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tex_Status" Association="Self.FK_Tex_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Tex" EntitySet="Tex" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tex_Type" Association="Self.FK_Tex_Type">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Tex" EntitySet="Tex" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DP2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kategoria">
+          <Key>
+            <PropertyRef Name="ID_K" />
+          </Key>
+          <Property Name="ID_K" Type="Int16" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Komp" Relationship="Self.FK_Komp_Kategoria" FromRole="Kategoria" ToRole="Komp" />
+        </EntityType>
+        <EntityType Name="Komp">
+          <Key>
+            <PropertyRef Name="ID_Komplect" />
+          </Key>
+          <Property Name="ID_Komplect" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Art" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Kategoria" Type="Int16" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="Cost" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Kategoria1" Relationship="Self.FK_Komp_Kategoria" FromRole="Komp" ToRole="Kategoria" />
+          <NavigationProperty Name="Status2" Relationship="Self.FK_Status2_Komp" FromRole="Komp" ToRole="Status2" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID_Status" />
+          </Key>
+          <Property Name="ID_Status" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tex" Relationship="Self.FK_Tex_Status" FromRole="Status" ToRole="Tex" />
+        </EntityType>
+        <EntityType Name="Status2">
+          <Key>
+            <PropertyRef Name="ID_Sklad" />
+          </Key>
+          <Property Name="ID_Sklad" Type="Int16" Nullable="false" />
+          <Property Name="ID_Tex" Type="Int16" />
+          <Property Name="ID_Komplect" Type="Int32" />
+          <NavigationProperty Name="Komp" Relationship="Self.FK_Status2_Komp" FromRole="Status2" ToRole="Komp" />
+          <NavigationProperty Name="Tex" Relationship="Self.FK_Status2_Tex" FromRole="Status2" ToRole="Tex" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tex">
+          <Key>
+            <PropertyRef Name="ID_Tex" />
+          </Key>
+          <Property Name="ID_Tex" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nomer" Type="Int32" Nullable="false" />
+          <Property Name="Opisanie" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="Price" Type="Int32" />
+          <NavigationProperty Name="Status1" Relationship="Self.FK_Tex_Status" FromRole="Tex" ToRole="Status" />
+          <NavigationProperty Name="Status2" Relationship="Self.FK_Status2_Tex" FromRole="Tex" ToRole="Status2" />
+          <NavigationProperty Name="Type1" Relationship="Self.FK_Tex_Type" FromRole="Tex" ToRole="Type" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="ID_Type" />
+          </Key>
+          <Property Name="ID_Type" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tex" Relationship="Self.FK_Tex_Type" FromRole="Type" ToRole="Tex" />
+        </EntityType>
+        <Association Name="FK_Komp_Kategoria">
+          <End Role="Kategoria" Type="Self.Kategoria" Multiplicity="0..1" />
+          <End Role="Komp" Type="Self.Komp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoria">
+              <PropertyRef Name="ID_K" />
+            </Principal>
+            <Dependent Role="Komp">
+              <PropertyRef Name="Kategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Status2_Komp">
+          <End Role="Komp" Type="Self.Komp" Multiplicity="0..1" />
+          <End Role="Status2" Type="Self.Status2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Komp">
+              <PropertyRef Name="ID_Komplect" />
+            </Principal>
+            <Dependent Role="Status2">
+              <PropertyRef Name="ID_Komplect" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tex_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Tex" Type="Self.Tex" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID_Status" />
+            </Principal>
+            <Dependent Role="Tex">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Status2_Tex">
+          <End Role="Tex" Type="Self.Tex" Multiplicity="0..1" />
+          <End Role="Status2" Type="Self.Status2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tex">
+              <PropertyRef Name="ID_Tex" />
+            </Principal>
+            <Dependent Role="Status2">
+              <PropertyRef Name="ID_Tex" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tex_Type">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Tex" Type="Self.Tex" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID_Type" />
+            </Principal>
+            <Dependent Role="Tex">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DP2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kategoria" EntityType="Self.Kategoria" />
+          <EntitySet Name="Komp" EntityType="Self.Komp" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Status2" EntityType="Self.Status2" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Tex" EntityType="Self.Tex" />
+          <EntitySet Name="Type" EntityType="Self.Type" />
+          <AssociationSet Name="FK_Komp_Kategoria" Association="Self.FK_Komp_Kategoria">
+            <End Role="Kategoria" EntitySet="Kategoria" />
+            <End Role="Komp" EntitySet="Komp" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Status2_Komp" Association="Self.FK_Status2_Komp">
+            <End Role="Komp" EntitySet="Komp" />
+            <End Role="Status2" EntitySet="Status2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tex_Status" Association="Self.FK_Tex_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Tex" EntitySet="Tex" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Status2_Tex" Association="Self.FK_Status2_Tex">
+            <End Role="Tex" EntitySet="Tex" />
+            <End Role="Status2" EntitySet="Status2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tex_Type" Association="Self.FK_Tex_Type">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Tex" EntitySet="Tex" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DP2ModelContainer" CdmEntityContainer="DP2Entities">
+          <EntitySetMapping Name="Kategoria">
+            <EntityTypeMapping TypeName="DP2Model.Kategoria">
+              <MappingFragment StoreEntitySet="Kategoria">
+                <ScalarProperty Name="ID_K" ColumnName="ID_K" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Komp">
+            <EntityTypeMapping TypeName="DP2Model.Komp">
+              <MappingFragment StoreEntitySet="Komp">
+                <ScalarProperty Name="ID_Komplect" ColumnName="ID_Komplect" />
+                <ScalarProperty Name="Art" ColumnName="Art" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Kategoria" ColumnName="Kategoria" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="DP2Model.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="ID_Status" ColumnName="ID_Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status2">
+            <EntityTypeMapping TypeName="DP2Model.Status2">
+              <MappingFragment StoreEntitySet="Status2">
+                <ScalarProperty Name="ID_Sklad" ColumnName="ID_Sklad" />
+                <ScalarProperty Name="ID_Tex" ColumnName="ID_Tex" />
+                <ScalarProperty Name="ID_Komplect" ColumnName="ID_Komplect" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DP2Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tex">
+            <EntityTypeMapping TypeName="DP2Model.Tex">
+              <MappingFragment StoreEntitySet="Tex">
+                <ScalarProperty Name="ID_Tex" ColumnName="ID_Tex" />
+                <ScalarProperty Name="Nomer" ColumnName="Nomer" />
+                <ScalarProperty Name="Opisanie" ColumnName="Opisanie" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type">
+            <EntityTypeMapping TypeName="DP2Model.Type">
+              <MappingFragment StoreEntitySet="Type">
+                <ScalarProperty Name="ID_Type" ColumnName="ID_Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
